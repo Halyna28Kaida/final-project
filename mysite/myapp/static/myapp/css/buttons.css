@@ -1,0 +1,42 @@
+button {
+  background-color: #eff6f9;
+  padding: 5px 20px;
+  border-radius: 8px;
+  font-family: "Marmelad", sans-serif;
+}
+
+.middle-buttons-block {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.big-buttons {
+  max-width: 1100px;
+  display: flex;
+  margin: 20px auto;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.big-button {
+  width: 500px;
+  height: 50px;
+}
+
+.middle-button {
+  width: 300px;
+  height: 50px;
+}
+
+.button-active {
+  background-color: #757778;
+}
+
+.tour-button-switch {
+  display: flex;
+  width: 100%;
+}

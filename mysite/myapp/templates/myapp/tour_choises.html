@@ -1,0 +1,43 @@
+{% if group_tours %}
+
+<div>
+  {% if tour_type_praha %}
+  <a href="{% url 'myapp:group_tour_list' %}">
+    <button class="button-active">ЭКСКУРСИИ ПО ПРАГЕ</button>
+  </a>
+  {% else %}
+  <a href="{% url 'myapp:group_tour_list' %}">
+    <button>ЭКСКУРСИИ ПО ПРАГЕ</button>
+  </a>
+  {% endif %} {% if tour_type_czech %}
+  <a href="{% url 'myapp:group_tour_czech' %}">
+    <button class="button-active">ЭКСКУРСИИ ПО ЧЕХИИ</button>
+  </a>
+  {% else %}
+  <a href="{% url 'myapp:group_tour_czech' %}">
+    <button>ЭКСКУРСИИ ПО ЧЕХИИ</button>
+  </a>
+  {% endif %} {% if tour_type_europe %}
+  <a href="{% url 'myapp:group_tour_europe' %}">
+    <button class="button-active">ЭКСКУРСИИ ПО ЕВРОПЕ</button>
+  </a>
+  {% else %}
+  <a href="{% url 'myapp:group_tour_europe' %}">
+    <button>ЭКСКУРСИИ ПО ЕВРОПЕ</button>
+  </a>
+  {% endif %}
+</div>
+{% else %}
+<div>
+  <a href="{% url 'myapp:private_tour_list' %}">
+    <button>ИНДИВИДУАЛЬНЫЕ ЭКСКУРСИИ ПО ПРАГЕ</button>
+  </a>
+  <a href="{% url 'myapp:private_tour_czech' %}">
+    <button>ИНДИВИДУАЛЬНЫЕ ЭКСКУРСИИ ПО ЧЕХИИ</button>
+  </a>
+  <a href="{% url 'myapp:private_tour_europe' %}">
+    <button>ИНДИВИДУАЛЬНЫЕ ЭКСКУРСИИ ПО ЕВРОПЕ</button>
+  </a>
+</div>
+
+{% endif %}

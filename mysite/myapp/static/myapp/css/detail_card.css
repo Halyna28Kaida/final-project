@@ -1,0 +1,59 @@
+.detail-container {
+  width: 70%;
+  margin: 20px auto;
+  padding-top: 20px;
+  background-color: #edeaea;
+  text-align: center;
+  color: black;
+}
+
+.detail_card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.detail_left_card {
+  width: 40%;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.detail_right_card {
+  width: 60%;
+}
+
+.days {
+  display: flex;
+  gap: 10px;
+}
+
+.detail_days_false,
+.detail_days_true {
+  border: solid 2px #964a3b;
+  text-align: center;
+  font-size: 18px;
+  width: 25px;
+  height: 25px;
+}
+
+.detail_days_true {
+  background-color: #964a3b;
+  color: white;
+}
+
+.detail-description,
+.detail_meeting_place {
+  width: 90%;
+  margin: 20px auto;
+  text-align: justify;
+}
+
+.detail_left_card a {
+  color: black;
+}
+
+.detail-map {
+  width: 100%;
+}

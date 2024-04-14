@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block content %}
+<div class="buscket-form">
+  <h2>{{ tour_name }}</h2>
+  <div class="buscket-form-left">
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-datetime">
+        <div>
+          <div class="form-label">Дата:</div>
+          <div>{{ form.date }}</div>
+        </div>
+        <div>
+          <div class="form-label">{{ form.time.label_tag }}</div>
+          <div>{{ form.time }}</div>
+        </div>
+      </div>
+      <div class="form-person-quantity">
+        <div>
+          <div class="form-label">{{ form.person_quantity.label_tag }}</div>
+          <div>{{ form.person_quantity }}</div>
+        </div>
+        {% if tour_type == 2 %}
+        <div>
+          <div class="form-label">{{ form.kids_quantity.label_tag }}</div>
+          <div>{{ form.kids_quantity }}</div>
+        </div>
+        {% endif %}
+      </div>
+
+      <input class="input-button" type="submit" value="Оформить заказ" />
+    </form>
+  </div>
+  <div class="buscket-form-right"></div>
+</div>
+{% endblock %}

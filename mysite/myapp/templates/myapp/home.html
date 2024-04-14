@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block content %}
+
+<div>{% include "includes/includes_services.html" %}</div>
+
+<div class="big-buttons">
+  <a href="{% url 'myapp:private_tour_list' %}">
+    <button class="big-button">ИНДИВИДУАЛЬНЫЕ ЭКСКУРСИИ</button>
+  </a>
+  <a href="{% url 'myapp:group_tour_list' %}">
+    <button class="big-button">ГРУППОВЫЕ ЭКСКУРСИИ</button>
+  </a>
+</div>
+
+<div class="card-blocks">
+  <div class="card-block">
+    <h1>ИНДИВИДУАЛЬНЫЕ ЭКСКУРСИИ</h1>
+
+    <div class="cards-private">
+      {% for obj in private_tours %}
+
+      <div>{% include "includes/include_cards.html" %}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card-block">
+    <h1>ГРУППОВЫЕ ЭКСКУРСИИ</h1>
+
+    <div class="cards-group">
+      {% for obj in group_tours %}
+
+      <div>{% include "includes/include_cards.html" %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+.buscket-form {
+  width: 70%;
+  margin: 20px auto;
+  padding-top: 20px;
+  background-color: #edeaea;
+  text-align: center;
+  color: black;
+}
+
+.buscket-form-left,
+.buscket-form-right {
+  width: 45%;
+}
+
+.buscket-form-left {
+  background-color: #964a3b;
+  padding: 20px 10px;
+  margin: 20px 10px;
+}
+
+.form-datetime,
+.form-person-quantity {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.input {
+  width: 200px;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-label {
+  text-align: left;
+}
+
+.input-button {
+  background-color: #eff6f9;
+  margin: 30px 0;
+  padding: 5px 20px;
+  border-radius: 8px;
+  font-family: "Marmelad", sans-serif;
+}
+
+h2 {
+  width: 100%;
+  text-align: center;
+}

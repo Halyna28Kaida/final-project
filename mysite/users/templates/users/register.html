@@ -1,0 +1,29 @@
+{% extends 'myapp/base.html' %} {% block content %}
+<div>
+  <a href="{% url 'users:login' %}">Login</a>
+</div>
+
+<div class="register-form">
+  <h3>РЕГИСТРАЦИЯ</h3>
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="input-error">{{ form.non_field_errors }}</div>
+
+    {% for f in form %}
+    <div class="form">
+      <div>
+        <label class="form-label" for="{{ f.id_for_label }}">
+          {{ f.label }}
+        </label>
+      </div>
+      <div>{{ f }}</div>
+    </div>
+    <div class="input-error">{{ f.errors }}</div>
+    {% endfor %}
+
+    <input type="submit" value="Зарегистрировать" />
+  </form>
+</div>
+
+{% endblock %}

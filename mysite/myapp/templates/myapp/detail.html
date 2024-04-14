@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {% block content %} 
+
+
+<div class="detail-container">
+  <div><h1>{{obj.name}}</h1></div>
+  <div class="detail_card">
+  </br>
+  
+    <div class="detail_left_card">
+      {% if obj.tour_type == 1 %}{% endif %}
+      <div>Цена за всю группу: {{obj.adult_price}} &euro; </div>
+      {% if obj.tour_type == 2 %}
+      <div>Цена для взрослого: {{obj.adult_price}} &euro; </div>
+      </br>
+      <div>Цена для ребенка: {{ obj.kids_price }} &euro; </div>
+      {% endif %}
+      </br>
+     
+      <div>Длительность: {{obj.duration}} часов </div>
+      </br>
+
+      <div>Начало в: {{obj.beginning}} </div>
+      </br>
+       <a href="#googleMap">
+         <div>Место встречи.</div>
+       </a>
+
+    </br>
+      <div class=days>
+        {% if obj.monday %}
+        <div class="detail_days_true">Пн</div>
+        {% else %}
+        <div class="detail_days_false">Пн</div>
+        {% endif %}
+        {% if obj.tuesday %}
+        <div class="detail_days_true">Вт</div>
+        {% else %}
+        <div class="detail_days_false">Вт</div>
+        {% endif %}
+        {% if obj.wednesday %}
+        <div class="detail_days_true">Ср</div>
+        {% else %}
+        <div class="detail_days_false">Ср</div>
+        {% endif %}
+        {% if obj.thursday %}
+        <div class="detail_days_true">Чт</div>
+        {% else %}
+        <div class="detail_days_false">Чт</div>
+        {% endif %}
+        {% if obj.friday %}
+        <div class="detail_days_true">Пт</div>
+        {% else %}
+        <div class="detail_days_false">Пт</div>
+        {% endif %}
+        {% if obj.saturday %}
+        <div class="detail_days_true">Сб</div>
+        {% else %}
+        <div class="detail_days_false">Сб</div>
+        {% endif %}
+        {% if obj.sunday %}
+        <div class="detail_days_true">Нд</div>
+        {% else %}
+        <div class="detail_days_false">Нд</div>
+        {% endif %}
+      </div>
+    </br>
+  </br>
+</br>
+      <a href="{% url 'myapp:buscket_create' obj.pk %}">
+        <button>ЗАКАЗАТЬ</button>
+      </a>
+    </div>
+  
+  
+    <div class="detail_right_card">
+      {% if obj.image %}
+      <img class="card_img" src="{{obj.image.url}}" alt="img" />
+      {% endif %}
+    </div>
+    <div class="detail-description">{{obj.description}}</div>
+  </br>
+</br> 
+<div class="detail_meeting_place">
+  Место встречи: {{obj.meeting_place}}
+</div>
+</br>
+</br>
+    <div class="detail-map" id="googleMap">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.347346119599!2d14.427151511560364!3d50.07978331386525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b948d7c50ec4f%3A0x30427619ee0c8bd0!2z0J_QsNC80Y_RgtC90LjQuiDQodCy0Y_RgtC-0LzRgyDQktCw0YbQu9Cw0LLRgw!5e0!3m2!1sru!2scz!4v1713012896685!5m2!1sru!2scz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}
+
+

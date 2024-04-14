@@ -1,0 +1,72 @@
+{% load static %}
+
+<div>
+  <div>
+    <div class="navbar">
+      <div class="nav-inner">
+        <div>
+          <a href="{% url 'myapp:home' %}"
+            ><img src="{% static 'myapp/logo/logo1.png' %}" alt="logo"
+          /></a>
+        </div>
+        <div class="nav_menu">
+          <div class="nav-menu-main">
+            <a
+              href="{% url 'myapp:home' %}"
+              class="{% if request.path == '/myapp/home/' %}active{% endif %}"
+              >ГЛАВНАЯ</a
+            >
+            <a
+              href="{% url 'myapp:tours' %}"
+              class="{% if request.path == '/myapp/tours/' %}active{% endif %}"
+              >ТУРЫ</a
+            >
+            <a
+              href="{% url 'myapp:services' %}"
+              class="{% if request.path == '/myapp/services/' %}active{% endif %}"
+              >УСЛУГИ</a
+            >
+
+            <a
+              href="{% url 'myapp:about' %}"
+              class="{% if request.path == '/myapp/about/' %}active{% endif %}"
+              >О НАС</a
+            >
+            <a href="#">КОНТАКТЫ</a>
+          </div>
+          <div><a href="{% url 'myapp:buscket' %}">КОРЗИНА</a></div>
+          <div class="nav-menu-login">
+            {% if user.is_authenticated %}
+            <div>
+              <form method="post" action="{% url 'users:logout' %}">
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
+                {{user}}
+              </form>
+            </div>
+            {% else %}
+            <a href="{% url 'users:login' %}"> Войти </a>
+            <a href="{% url 'users:register' %}"> Зарегистрироватся </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header">
+      <div>
+        <p class="main-small-text">Открой для себя WOW</p>
+        <h1 class="main-big-text">ЧЕХИЮ</h1>
+      </div>
+
+      <div class="nav-bottom">
+        {% if request.path == "/myapp/home/" %} ГЛАВНАЯ {% endif %}
+        <div>{% if request.path == "/myapp/tours/" %} ТУРЫ {% endif %}</div>
+        <div>
+          {% if request.path == "/myapp/services/" %} УСЛУГИ {% endif %}
+        </div>
+        <div></div>
+        <div>{% if request.path == "/myapp/about/" %} О НАС {% endif %}</div>
+      </div>
+    </div>
+  </div>
+</div>

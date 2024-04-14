@@ -1,0 +1,47 @@
+ul,
+li {
+  list-style: none;
+}
+
+.register-form {
+  margin: 50px auto;
+  text-align: center;
+  width: 500px;
+  height: 400px;
+  background-color: rgb(243, 222, 183);
+  padding: 30px;
+}
+
+.login-body {
+  width: 800px;
+  height: 600px;
+  display: flex;
+  border-radius: 8px;
+}
+
+.login-form {
+  width: 420px;
+  height: 100%;
+  background-color: rgb(243, 222, 183);
+}
+
+.login-img {
+  width: 380px;
+  height: 100%;
+}
+
+.form {
+  clear: both;
+  /* border: solid 2px gray; */
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-input {
+  font-size: 20px;
+  border: solid 2px rgb(236, 178, 70);
+  background-color: rgb(243, 242, 239);
+}

@@ -1,0 +1,17 @@
+<div class="card">
+  <a href="">
+    <div>
+      {% if obj.image %}
+      <img class="card_img" src="{{obj.image.url}}" alt="img" />
+      {% endif %}
+    </div>
+  </a>
+  <div class="card-name">{{ obj.name }}</div>
+  <div class="card-description">{{ obj.description }}</div>
+  <div class="card-bottom">
+    <div class="card-price">Цена: {{ obj.adult_price }} &euro;</div>
+    <a href="{% url 'myapp:detail' pk=obj.pk %}">
+      <button>БОЛЬШЕ</button>
+    </a>
+  </div>
+</div>

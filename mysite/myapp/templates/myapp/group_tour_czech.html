@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+<div class="big-buttons">
+  <h3>ГРУППОВЫЕ ЭКСКУРСИИ</h3>
+  <a href="{% url 'myapp:private_tour_list' %}">
+    <button class="big-button">ИНДИВИДУАЛЬНЫЕ ЭКСКУРСИИ</button>
+  </a>
+</div>
+
+<div class="middle-buttons-block">
+  <a href="{% url 'myapp:group_tour_list' %}">
+    <button class="middle-button">ЭКСКУРСИИ ПО ПРАГЕ</button>
+  </a>
+  <a href="{% url 'myapp:group_tour_czech' %}">
+    <button class="button-active middle-button">ЭКСКУРСИИ ПО ЧЕХИИ</button>
+  </a>
+  <a href="{% url 'myapp:group_tour_europe' %}">
+    <button class="middle-button">ЭКСКУРСИИ ПО ЕВРОПЕ</button>
+  </a>
+</div>
+
+<div>
+  <div class="cards">
+    {% for obj in group_tours %} {% if obj in tour_type_czech %}
+
+    <div>{% include "includes/include_cards.html" %}</div>
+    {% endif %} {% endfor %}
+  </div>
+</div>
+{% endblock %}
