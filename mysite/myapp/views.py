@@ -1,10 +1,12 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, CreateView
-from myapp.models import Order, Tour, Buscket
+from myapp.models import Tour, Buscket
 from myapp.utils import GetTourTypeMixin
 from myapp.forms import BuscketCreateForm
+
 
 
 
@@ -62,64 +64,57 @@ class TourDetailView(DetailView):
 
     
 class BuscketCreateView(GetTourTypeMixin, CreateView):
-    # model = Tour
+    model = Buscket
     template_name = 'buscket_create.html'
     form_class = BuscketCreateForm
-    success_url = reverse_lazy('myapp:home')
-    context_object_name = 'obj'
+    http_method_names = ['get', 'post']
+    success_url = reverse_lazy('myapp:buscket')
+
+    def form_valid(self, form):
+        tour_instance = Tour.objects.get(pk=self.kwargs['tour_pk'])
+        form.instance.tour = tour_instance
+        form.instance.buyer = self.request.user
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        tour_instance = Tour.objects.get(pk=self.kwargs['tour_pk'])
+        max_quantity = tour_instance.place_quantity
+        beginning = tour_instance.beginning
+        kwargs['max_quantity'] = max_quantity
+        kwargs['beginning'] = beginning
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context={}
+        context = super().get_context_data(**kwargs)
+        tour = Tour.objects.get(pk=self.kwargs['tour_pk'])      
+        available_places = tour.available_places()
+        context['available_places'] = available_places 
+        context['form'] = self.get_form() 
+        context['tour_name'] = tour.name
+        context['tour_type'] = tour.tour_type
+        context['tour_pk'] = tour.pk
+        return context
+    
+
+class BuscketListView(ListView):
+    model = Buscket
+    template_name = 'buscket.html'
+    context_object_name = "buscket"
 
     def get_queryset(self):
         user = self.request.user
         queryset = Buscket.objects.filter(buyer=user)
         return queryset
-
-    
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.buyer = self.request.user
-        tour_pk = self.kwargs['pk']
-        tour_instance = get_object_or_404(Tour, pk=tour_pk)
-        obj.tour = tour_instance
-
-        obj.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        tour_instance = Tour.objects.get(pk=self.kwargs['pk'])
-        max_quantity = tour_instance.place_quantity
-        beginning = tour_instance.beginning
-        kwargs['max_quantity'] = max_quantity
-        kwargs['beginning'] = beginning
- 
-
-        return kwargs
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        tour = Tour.objects.get(pk=self.kwargs['pk'])
-        available_places = tour.available_places()
-        context['available_places'] = available_places 
-        context['form'] = self.get_form() 
-        # tour_instance = tour
-        tour_name = tour.name
-        tour_type = tour.tour_type
-        context['tour_type'] = tour_type
-        context['tour_name'] = tour_name 
-
-        return context
     
 
 
-class BuscketListView(ListView):
-    model = Buscket
-    template_name = 'buscket.html'
 
-    def get_queryset(self):
-        buyer = self.request.user
-        queryset = Buscket.objects.filter(buyer=buyer)
-        return queryset
+class BuscketDeleteView(View):
 
-    
+    def get(self,request, pk):
+        obj = Buscket.objects.get(pk=pk)
+        obj.delete()
+        return redirect('myapp:buscket')
+

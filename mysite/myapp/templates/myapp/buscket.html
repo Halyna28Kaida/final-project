@@ -1,9 +1,39 @@
-{% extends 'base.html' %} {% block content %}
-<div>
-  {% for obj in object_list %}
-  <div>{{obj.date}}</div>
-  <div>{{obj.person_quantity}}</div>
-  <div>{{ obj.kids_quantity }}</div>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<table>
+  <tr>
+    <th>Typ</th>
+    <th>Время</th>
+    <th>Дата</th>
+    <th>Количество человек</th>
+    <th>Сумма</th>
+  </tr>
+
+  {% for obj in buscket %}
+  <tr class="buscket-list">
+    <td>{{obj.tour.name}}</td>
+    <td>{{obj.time}}</td>
+    <td>{{obj.date|date:"d-m-Y" }}</td>
+    <td>{{obj.person_quantity}}</td>
+    <td>{{obj.get_summ}}</td>
+    <td>
+      <a href="{% url 'myapp:buscket-delete' pk=obj.pk %}"
+        ><img
+          class="buscket-delete"
+          src="{% static 'myapp/images/main/delette.png' %}"
+          alt="delete"
+      /></a>
+    </td>
+  </tr>
+
   {% endfor %}
-</div>
+
+  <tr class="buscket-list">
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Итого</td>
+    <td>{{buscket.total_summ}}</td>
+    <td></td>
+  </tr>
+</table>
 {% endblock %}

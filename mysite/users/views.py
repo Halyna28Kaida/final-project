@@ -1,7 +1,7 @@
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-from users.forms import NewUserForm
-from django.contrib.auth.forms import AuthenticationForm
+from users.forms import NewUserForm, LoginUserForm
+# from django.contrib.auth.forms import AuthenticationForm
 
 
 class Register(CreateView):
@@ -17,7 +17,7 @@ class Register(CreateView):
 
 
 class Login(LoginView):
-    form_class = AuthenticationForm
+    form_class = LoginUserForm
     template_name = 'users/login.html'
     success_url = '/myapp/home/'
 

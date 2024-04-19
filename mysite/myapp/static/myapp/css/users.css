@@ -17,12 +17,17 @@ li {
   height: 600px;
   display: flex;
   border-radius: 8px;
+  text-align: center;
 }
 
 .login-form {
   width: 420px;
-  height: 100%;
+  padding: 100px 10px;
   background-color: rgb(243, 222, 183);
+}
+
+.login-form button {
+  margin: 50px 0;
 }
 
 .login-img {

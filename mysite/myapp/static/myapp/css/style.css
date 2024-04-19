@@ -181,3 +181,13 @@ h3 {
 .input-error {
   color: brown;
 }
+
+.buscket-quantity {
+  width: 30px;
+  position: absolute;
+  z-index: 2;
+  margin-top: -20px;
+  background-color: brown;
+  border-radius: 50%;
+  text-align: center;
+}

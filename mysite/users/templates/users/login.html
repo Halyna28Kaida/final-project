@@ -20,8 +20,12 @@
       <div class="input-error">{{ f.errors }}</div>
       {% endfor %}
 
-      <input type="submit" value="ВОЙТИ" />
+      <button type="submit">ВОЙТИ</button>
+      {% comment %} <input type="submit" value="ВОЙТИ" /> {% endcomment %}
     </form>
+    <div class="login-register-button">
+      <a href="{% url 'users:register' %}">ЗАРЕГИСТРИРОВАТСЯ</a>
+    </div>
   </div>
 
   <div>

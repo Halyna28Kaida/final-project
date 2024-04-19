@@ -20,7 +20,7 @@ class Tour(models.Model):
     duration = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     beginning = models.TimeField()
     meeting_place = models.CharField(max_length=300, blank=True, null=True)
-    image = models.ImageField(blank=True, upload_to="images")
+    image = models.ImageField(default=True, upload_to="images")
     tour_type = models.IntegerField(choices=TOUR_TYPE_CHOICE, default=1)
     monday = models.BooleanField(default=True)
     tuesday = models.BooleanField(default=True)
@@ -29,7 +29,6 @@ class Tour(models.Model):
     friday = models.BooleanField(default=True)
     saturday = models.BooleanField(default=True)
     sunday = models.BooleanField(default=True)
-    kids_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     adult_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     tour_type_kind = models.IntegerField(choices=TOUR_TYPE_KIND_CHOICES, default=1)
     place_quantity = models.PositiveIntegerField(blank=True, default=1, choices=[(i, i) for i in range(1, 50)])
@@ -42,17 +41,14 @@ class Tour(models.Model):
         available_places = self.place_quantity - total_orders
         return available_places
     
-    
-
-
 class BuscketQuarySet(models.QuerySet):
-    # def get_cost(self):
-    #     get_cost = round(((self.tour.kids_price * self.kids_quantity) + (self.tour.adult_price * self.person_quantity)), 2)
-    #     return get_cost
-
-    def total_price(self):
-        return sum(buscket.get_cost() for buscket in self)
-
+    def total_summ(self):
+        return sum(obj.get_summ() for obj in self)
+    
+    def total_quantity(self):
+        return sum(obj.person_quantity for obj in self)
+    
+    
 
 class Buscket(models.Model):
     date = models.DateField()
@@ -61,23 +57,16 @@ class Buscket(models.Model):
     prepayment = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     person_quantity = models.PositiveIntegerField( blank=True)
-    kids_quantity = models.PositiveIntegerField(blank=True)
     tour = models.ForeignKey(Tour, blank=True, null=True, on_delete=models.CASCADE)
     
 
-    def get_cost(self):
-        if self.tour.kids_price:
-            get_cost = round(((self.tour.kids_price * self.kids_quantity) + (self.tour.adult_price * self.person_quantity)), 2)
-        else:
-             get_cost = round(self.tour.adult_price * self.person_quantity, 2)
-        return get_cost
-
-
-    # def save(self, *args, **kwargs):
-    #     total_summ = self.get_cost
-    #     super(Buscket, self).save(*args, **kwargs)
+    def get_summ(self):
+        return self.tour.adult_price * self.person_quantity
     
-    # objects = BuscketQuarySet.as_manager()
+    objects = BuscketQuarySet.as_manager()
+
+
+    
 
 
 class Order(models.Model):

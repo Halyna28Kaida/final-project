@@ -34,7 +34,16 @@
             >
             <a href="#">КОНТАКТЫ</a>
           </div>
-          <div><a href="{% url 'myapp:buscket' %}">КОРЗИНА</a></div>
+
+          <div>
+            <a
+              href="{% if request.user.is_authenticated %} {% url 'myapp:buscket' %} {% else %} {% url 'users:login' %} {% endif %}"
+            >
+              КОРЗИНА
+              <span class="buscket-quantity">{{buscket.total_quantity}}</span>
+            </a>
+          </div>
+
           <div class="nav-menu-login">
             {% if user.is_authenticated %}
             <div>
