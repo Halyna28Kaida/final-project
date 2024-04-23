@@ -1,4 +1,7 @@
 {% extends 'base.html' %} {% block content %}
+<div>
+  {% include "includes/includes_navbar.html" %} {% include "nav.html" %}
+</div>
 <div
   class="buscket-form"
   action="{% url 'myapp:buscket_create' tour_pk=tour_pk %}"
@@ -29,4 +32,5 @@
   </div>
   <div class="buscket-form-right"></div>
 </div>
+<footer>{% include "footer.html" %}</footer>
 {% endblock %}

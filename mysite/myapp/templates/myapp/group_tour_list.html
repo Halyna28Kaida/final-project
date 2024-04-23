@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% block content %}
-
+<div>
+  {% include "includes/includes_navbar.html" %} {% include "nav.html" %}
+</div>
 <div class="big-buttons">
   <h3>ГРУППОВЫЕ ЭКСКУРСИИ</h3>
   <a href="{% url 'myapp:private_tour_list' %}">
@@ -28,4 +30,5 @@
     {% endif %} {% endfor %}
   </div>
 </div>
+<footer>{% include "footer.html" %}</footer>
 {% endblock %}

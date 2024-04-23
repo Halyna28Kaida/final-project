@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{% static 'myapp/css/buscket.css' %}" />
     <link rel="stylesheet" href="{% static 'myapp/css/footer.css' %}" />
     <link rel="stylesheet" href="{% static 'myapp/css/services.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/popular_cities.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/contacts.css' %}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,7 +28,6 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    {% include "nav.html" %} {% block content %} {% endblock content %}
+    {% block content %} {% endblock content %}
   </body>
-  <footer>{% include "footer.html" %}</footer>
 </html>

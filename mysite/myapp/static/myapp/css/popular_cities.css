@@ -1,0 +1,55 @@
+.block-popular-cities ul {
+  max-width: 95%;
+  margin: 50px 0;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 5px;
+  justify-content: center;
+}
+
+.block-popular-cities {
+  width: 100%;
+  margin-top: 50px;
+  text-align: center;
+  background: url(Vector1.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 30px 0;
+}
+
+.block-popular-cities ul li {
+  overflow: hidden;
+  border-radius: 14px;
+  max-width: 550px;
+  max-height: 300px;
+}
+
+.block-popular-cities ul li .picture {
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  filter: brightness(50%);
+}
+
+.block-popular-cities ul li .text,
+.block-popular-cities ul li .text-small {
+  position: absolute;
+  z-index: 2;
+  margin-top: -120px;
+
+  width: 300px;
+  color: #cccbcb;
+}
+
+.block-popular-cities ul li .text {
+  margin-left: 120px;
+}
+
+.block-popular-cities ul li .text-small {
+  margin-left: 25px;
+}
+
+.block-popular-cities ul li .picture:hover {
+  -webkit-transform: scale(1.15) rotate(0.01deg);
+  transform: scale(1.15) rotate(0.01deg);
+}

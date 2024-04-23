@@ -1,4 +1,9 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div>
+  {% include "includes/includes_navbar.html" %} {% include "nav.html" %}
+</div>
+
+<div>{% include "includes/includes_popular_cities.html" %}</div>
 
 <div>{% include "includes/includes_services.html" %}</div>
 
@@ -34,4 +39,5 @@
     </div>
   </div>
 </div>
+<footer>{% include "footer.html" %}</footer>
 {% endblock %}

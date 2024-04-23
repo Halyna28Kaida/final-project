@@ -23,9 +23,16 @@
   z-index: 1;
 }
 
-.services-container {
+.services-container,
+.todo-container {
   margin-top: 50px;
   color: black;
+}
+
+.services-container h1,
+.todo-container h1 {
+  padding-top: 50px;
+  color: white;
 }
 
 .services-all {
@@ -38,12 +45,21 @@
   position: relative;
 }
 
-.service {
-  width: 260px;
-  height: 310px;
+.service,
+.service-todo {
   background-color: #e9e8e8;
   border-radius: 8px;
   text-align: center;
+}
+
+.service {
+  width: 260px;
+  height: 310px;
+}
+
+.service-todo {
+  width: 310px;
+  height: 373px;
 }
 
 .service h4 {
@@ -53,16 +69,20 @@
 }
 
 .service h4,
-.service p {
+.service p,
+.service-todo h4,
+.service-todo p {
   width: 229px;
   margin: 20px auto 0;
 }
 
-.service p {
+.service p,
+.service-todo p {
   font-size: 16px;
   line-height: 20.8px;
   height: 63px;
 }
-.service img {
+.service img,
+.service-todo img {
   margin: 20px auto 20px;
 }

@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="contacts-nav-bar">
+  {% include "includes/includes_navbar.html" %}
+</div>
+
+<div class="contacts-block">
+  <h1>Гарячая линия</h1>
+
+  <div class="contacts">
+    <div class="contacts-left">
+      <h5>Мы работаем 24/7</h5>
+      <p>
+        Наберите на нашу горячую линию и мы Вам перезвоним а течении 5 минут
+        (звонок бесплатный)
+      </p>
+    </div>
+    <div class="contacts-right">
+      <h1><span>+420 776 300</span> 799</h1>
+    </div>
+  </div>
+</div>
+<footer>{% include "footer.html" %}</footer>
+
+{% endblock %}

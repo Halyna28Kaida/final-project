@@ -40,3 +40,7 @@ button {
   display: flex;
   width: 100%;
 }
+
+.checkout-button a {
+  color: black;
+}

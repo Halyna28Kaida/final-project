@@ -34,17 +34,17 @@ class BuscketCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
 
         beginning = kwargs.pop('beginning', None)
-        max_quantity = kwargs.pop('max_quantity', None)
+        place_quantity = kwargs.pop('place_quantity', None)
         
         
 
         super().__init__(*args, **kwargs)
 
 
-        if max_quantity:
+        if place_quantity:
             self.fields['person_quantity'] = forms.ChoiceField(
                 label='Количество человек',
-                choices=[(i, str(i)) for i in range(1, max_quantity + 1)],
+                choices=[(i, str(i)) for i in range(1, place_quantity + 1)],
                 widget=forms.Select(attrs={'class': 'input'}),
             )
 

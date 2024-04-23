@@ -1,4 +1,7 @@
 {% extends 'base.html' %} {% block content %}
+<div>
+  {% include "includes/includes_navbar.html" %} {% include "nav.html" %}
+</div>
 <div class="big-buttons">
   <h3>ИНДИВИДУАЛЬНЫЕ ЭКСКУРСИИ</h3>
 
@@ -28,4 +31,5 @@
     {% endif %} {% endfor %}
   </div>
 </div>
+<footer>{% include "footer.html" %}</footer>
 {% endblock %}

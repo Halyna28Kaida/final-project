@@ -1,13 +1,16 @@
 
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.http import HttpRequest, HttpResponseNotFound, JsonResponse
+from django.http.response import HttpResponse as HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, CreateView
-from myapp.models import Tour, Buscket
+from myapp.models import Order, Tour, Buscket
 from myapp.utils import GetTourTypeMixin
 from myapp.forms import BuscketCreateForm
-
-
+from django.conf import settings
+import stripe
+from django.db.models import Sum
 
 
 
@@ -15,52 +18,67 @@ class TourListView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'home.html'
     paginate_by = 3
-
+    context_object_name = "buscket"
+ 
+    
 
 class ServicesView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'services.html'
+    context_object_name = "buscket"
+    
 
 
-class AboutView(TemplateView):
+class AboutView(ListView):
     model = Tour
     template_name = 'about.html'
+    context_object_name = "buscket"
 
-
+class ContactsView(ListView):
+    model = Tour
+    template_name = 'contacts.html'
+    context_object_name = "buscket"
 
 class PrivateTourListView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'private_tour_list.html'
+    context_object_name = "buscket"
 
 
 class PrivateTourCzechListView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'private_tour_czech.html'
+    context_object_name = "buscket"
 
 
 class PrivateTourEuropeListView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'private_tour_europe.html'
+    context_object_name = "buscket"
 
 
 class GroupTourListView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'group_tour_list.html'
+    context_object_name = "buscket"
 
 
 class GroupTourEuropeListView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'group_tour_europe.html'
+    context_object_name = "buscket"
 
 
 class GroupTourCzechListView(GetTourTypeMixin, ListView):
     model = Tour
-    template_name = 'group_tour_czech.html'    
+    template_name = 'group_tour_czech.html' 
+    context_object_name = "buscket"   
 
 class TourDetailView(DetailView):
     model = Tour
     template_name = 'detail.html'
     context_object_name = 'obj'
+
 
     
 class BuscketCreateView(GetTourTypeMixin, CreateView):
@@ -69,6 +87,7 @@ class BuscketCreateView(GetTourTypeMixin, CreateView):
     form_class = BuscketCreateForm
     http_method_names = ['get', 'post']
     success_url = reverse_lazy('myapp:buscket')
+    context_object_name = "buscket"
 
     def form_valid(self, form):
         tour_instance = Tour.objects.get(pk=self.kwargs['tour_pk'])
@@ -79,9 +98,9 @@ class BuscketCreateView(GetTourTypeMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         tour_instance = Tour.objects.get(pk=self.kwargs['tour_pk'])
-        max_quantity = tour_instance.place_quantity
+        place_quantity = tour_instance.place_quantity
         beginning = tour_instance.beginning
-        kwargs['max_quantity'] = max_quantity
+        kwargs['place_quantity'] = place_quantity
         kwargs['beginning'] = beginning
         return kwargs
 
@@ -98,6 +117,8 @@ class BuscketCreateView(GetTourTypeMixin, CreateView):
         return context
     
 
+    
+
 class BuscketListView(ListView):
     model = Buscket
     template_name = 'buscket.html'
@@ -108,7 +129,11 @@ class BuscketListView(ListView):
         queryset = Buscket.objects.filter(buyer=user)
         return queryset
     
-
+    # def get_context_data(self, **kwargs): 
+    #     context = super(BuscketListView, self).get_context_data(**kwargs)
+    #     context["stripe_publishable_key"] = settings.STRIPE_PUBLISHABLE_KEY
+    #     return context
+    
 
 
 class BuscketDeleteView(View):
@@ -117,4 +142,48 @@ class BuscketDeleteView(View):
         obj = Buscket.objects.get(pk=pk)
         obj.delete()
         return redirect('myapp:buscket')
+
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+def payment(request):
+    context = {'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY}
+    return render(request, 'checkout.html', context)
+
+
+def create_charge(request):
+    user = request.user 
+    token = request.POST['stripeToken']
+
+    try:
+        total_summ = Buscket.objects.filter(buyer=user).total_summ()
+
+        charge = stripe.Charge.create(
+            amount=int(total_summ * 100),
+            currency='eur',
+            description='Example charge',
+            source=token,
+        )
+
+    
+        tours = Tour.objects.filter(buscket__buyer=user) 
+        for tour in tours:
+            total_persons = Buscket.objects.filter(tour=tour, date=request.POST['date']).aggregate(
+                total=Sum('person_quantity')
+            )['total']
+
+            if total_persons:
+                tour.place_quantity -= total_persons
+                tour.save()
+
+        Buscket.objects.filter(buyer=user).delete()
+    except stripe.error.StripeError as e:
+
+        # Handle error
+        return render(request, 'failed.html', {'message': str(e)})
+
+    return render(request, 'success.html')
 

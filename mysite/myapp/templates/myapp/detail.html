@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %} 
-
+<div class="detail-nav-bar">{% include "includes/includes_navbar.html" %}</div>
 
 <div class="detail-container">
   <div><h1>{{obj.name}}</h1></div>
@@ -93,6 +93,7 @@
 
 </div>
 
+<footer>{% include "footer.html" %}</footer>
 
 {% endblock %}
 

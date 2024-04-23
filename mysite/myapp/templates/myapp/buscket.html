@@ -1,19 +1,24 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
+<div>{% include "includes/includes_navbar.html" %}{% include "nav.html" %}</div>
+{% if buscket %}
 <table>
   <tr>
     <th>Typ</th>
-    <th>Время</th>
     <th>Дата</th>
+    <th>Время</th>
     <th>Количество человек</th>
+    <th>Цена</th>
     <th>Сумма</th>
   </tr>
 
   {% for obj in buscket %}
   <tr class="buscket-list">
     <td>{{obj.tour.name}}</td>
+    <td>{{obj.date|date:'Y-m-d' }}</td>
     <td>{{obj.time}}</td>
-    <td>{{obj.date|date:"d-m-Y" }}</td>
     <td>{{obj.person_quantity}}</td>
+    <td>{{obj.tour.adult_price}}</td>
+
     <td>{{obj.get_summ}}</td>
     <td>
       <a href="{% url 'myapp:buscket-delete' pk=obj.pk %}"
@@ -31,9 +36,19 @@
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
     <td>Итого</td>
     <td>{{buscket.total_summ}}</td>
     <td></td>
   </tr>
 </table>
+
+<a href="{% url 'myapp:checkout' %}">
+  <button class="checkout-button">continue</button>
+</a>
+
+{% else %}
+<h3>empty</h3>
+{% endif %}
+<footer>{% include "footer.html" %}</footer>
 {% endblock %}

@@ -31,15 +31,15 @@ class Tour(models.Model):
     sunday = models.BooleanField(default=True)
     adult_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     tour_type_kind = models.IntegerField(choices=TOUR_TYPE_KIND_CHOICES, default=1)
-    place_quantity = models.PositiveIntegerField(blank=True, default=1, choices=[(i, i) for i in range(1, 50)])
+    place_quantity = models.PositiveIntegerField(blank=True, null=True, default=1, choices=[(i, i) for i in range(1, 50)])
 
     def __str__(self) -> str:
         return str(self.name)
     
     def available_places(self):
         total_orders = Buscket.objects.filter(tour=self).count()
-        available_places = self.place_quantity - total_orders
-        return available_places
+        place_quantity = self.place_quantity - total_orders
+        return place_quantity
     
 class BuscketQuarySet(models.QuerySet):
     def total_summ(self):
@@ -56,24 +56,30 @@ class Buscket(models.Model):
     buyer = models.ForeignKey(TuristUserNew, on_delete=models.CASCADE)
     prepayment = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    person_quantity = models.PositiveIntegerField( blank=True)
+    person_quantity = models.PositiveIntegerField( blank=True, null=True)
     tour = models.ForeignKey(Tour, blank=True, null=True, on_delete=models.CASCADE)
     
 
     def get_summ(self):
-        return self.tour.adult_price * self.person_quantity
+        if self.tour:
+            if self.tour.tour_type == 1:
+                return self.tour.adult_price
+            else:
+                return self.tour.adult_price * self.person_quantity
+        return 0  
     
     objects = BuscketQuarySet.as_manager()
-
-
-    
 
 
 class Order(models.Model):
     buyer = models.ForeignKey(TuristUserNew, on_delete=models.SET_DEFAULT, blank=True, null=True, default=None, verbose_name='Пользователь')
     phone_number = models.CharField(max_length=20, null=True, verbose_name='Номер телефона')
     email = models.CharField(max_length=50, null=True, verbose_name='E-mail')
-    is_paid = models.CharField(default=False, verbose_name='Оплачено')
+    buscket = models.ForeignKey(Buscket, blank=True, null=True, on_delete=models.PROTECT)
+    amount = models.IntegerField(blank=True, null=True)
+    stripe_payment = models.CharField(max_length=200, blank=True, null=True)
+    is_paid = models.BooleanField(default=False, verbose_name='Оплачено')
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         db_table: str = 'order'

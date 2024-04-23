@@ -1,0 +1,77 @@
+{% load static %}
+
+<div class="navbar">
+  <div class="nav-inner">
+    <div>
+      <a href="{% url 'myapp:home' %}"
+        ><img class="logo" src="{% static 'myapp/logo/logo1.png' %}" alt="logo"
+      /></a>
+    </div>
+    <div class="nav_menu">
+      <div class="nav-menu-main">
+        <ul>
+          <li>
+            <a
+              href="{% url 'myapp:home' %}"
+              class="{% if request.path == '/myapp/home/' %}active{% endif %}"
+              >Главная</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'myapp:tours' %}"
+              class="{% if request.path == '/myapp/tours/' %}active{% endif %}"
+              >Туры</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'myapp:services' %}"
+              class="{% if request.path == '/myapp/services/' %}active{% endif %}"
+              >Услуги</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'myapp:about' %}"
+              class="{% if request.path == '/myapp/about/' %}active{% endif %}"
+              >О нас</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'myapp:contacts' %}"
+              class="{% if request.path == '/myapp/contacts/' %}active{% endif %}"
+              >Контакты</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% if request.user.is_authenticated %} {% url 'myapp:buscket' %} {% else %} {% url 'users:login' %} {% endif %}"
+              class="{% if request.path == '/myapp/buscket/' %}active{% endif %}"
+            >
+              Корзина   
+            </a>
+            {% if user.is_authenticated %}
+            <span class="buscket-quantity">{{buscket.total_quantity}}</span>
+            {% endif %}
+          </li>
+    </div>
+    </ul>
+      <ul id="open_modal_window" class="nav-menu-login">
+        {% if user.is_authenticated %}
+        <li>
+          <form method="post" action="{% url 'users:logout' %}">
+            {% csrf_token %}
+            <button type="submit">Выйти</button>
+            {{user}}
+          </form>
+        </li>
+        {% else %}
+        <li><a href="{% url 'users:login' %}"> Войти </a></li>
+        <li><a href="{% url 'users:register' %}"> Зарегистрироватся </a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>

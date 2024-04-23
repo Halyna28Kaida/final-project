@@ -3,27 +3,41 @@ li {
   list-style: none;
 }
 
+.login-nav-bar .navbar {
+  background-color: #cccbcb;
+}
+
+.register {
+  padding-top: 100px;
+}
+
 .register-form {
   margin: 50px auto;
   text-align: center;
   width: 500px;
   height: 400px;
-  background-color: rgb(243, 222, 183);
+  background-color: #cccbcb;
   padding: 30px;
 }
 
 .login-body {
   width: 800px;
-  height: 600px;
-  display: flex;
-  border-radius: 8px;
+  height: 700px;
+  margin-top: 100px;
   text-align: center;
+  margin: 0px auto 20px;
+}
+
+.login-card {
+  padding-top: 150px;
+  display: flex;
+  height: 550px;
 }
 
 .login-form {
   width: 420px;
   padding: 100px 10px;
-  background-color: rgb(243, 222, 183);
+  background-color: #cccbcb;
 }
 
 .login-form button {
@@ -47,6 +61,6 @@ li {
 
 .form-input {
   font-size: 20px;
-  border: solid 2px rgb(236, 178, 70);
-  background-color: rgb(243, 242, 239);
+  /* border: solid 2px rgb(236, 178, 70); */
+  /* background-color: #faf8f8; */
 }

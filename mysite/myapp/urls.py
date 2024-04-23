@@ -1,7 +1,7 @@
 from django.urls import path
-from myapp.views import BuscketDeleteView, TourListView, TourDetailView, PrivateTourListView, GroupTourListView, BuscketCreateView
+from myapp.views import BuscketDeleteView,TourListView, TourDetailView, PrivateTourListView, GroupTourListView, BuscketCreateView 
 from myapp.views import GroupTourCzechListView, GroupTourEuropeListView,PrivateTourCzechListView, PrivateTourEuropeListView
-from myapp.views import ServicesView, AboutView, BuscketListView
+from myapp.views import ServicesView, AboutView, BuscketListView, ContactsView, create_charge, payment
 
 app_name= 'myapp'
 
@@ -10,6 +10,7 @@ urlpatterns = [
     path('tours/', TourListView.as_view(), name='tours'),
     path('services/', ServicesView.as_view(), name='services'),
     path('about/', AboutView.as_view(), name='about'),
+    path('contacts/', ContactsView.as_view(), name='contacts'),
     path('private_tour_list/', PrivateTourListView.as_view(), name='private_tour_list'),
     path('private_tour_czech/', PrivateTourCzechListView.as_view(), name='private_tour_czech'),
     path('private_tour_europe/', PrivateTourEuropeListView.as_view(), name='private_tour_europe'),
@@ -20,5 +21,9 @@ urlpatterns = [
     path('buscket_create/<int:tour_pk>/', BuscketCreateView.as_view(), name='buscket_create'),
     path('buscket/', BuscketListView.as_view(), name='buscket'),
     path('buscket-delete/<int:pk>/', BuscketDeleteView.as_view(), name='buscket-delete'),
+    path('create-charge/', create_charge, name='create-charge'),
+    path('checkout_session/', payment, name='checkout'),
+
+
 ]
 

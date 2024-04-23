@@ -1,1 +1,8 @@
-{% extends 'base.html' %} {% block content %} {% endblock %}
+{% extends 'base.html' %} {% block content %}
+<div>
+  <div>
+    {% include "includes/includes_navbar.html" %} {% include "nav.html" %}
+  </div>
+</div>
+<footer>{% include "footer.html" %}</footer>
+{% endblock %}

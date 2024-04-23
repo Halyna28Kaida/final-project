@@ -1,0 +1,30 @@
+.contacts-block {
+  background: url(Vector3.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 120px;
+  margin-top: -10px;
+}
+
+.contacts {
+  display: flex;
+  width: 85%;
+  justify-content: space-around;
+  margin: 0 auto;
+  padding-top: 5px;
+}
+
+.contacts-left {
+  width: 30%;
+  color: black;
+  padding-top: 50px;
+}
+
+.contacts-right {
+  width: 60%;
+  font-size: 48px;
+}
+
+.contacts-right span {
+  color: black;
+}

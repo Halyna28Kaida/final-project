@@ -1,0 +1,53 @@
+{% load static %}
+
+<div class="todo-container">
+  <h1>Что Вам нужно сделать</h1>
+  <div class="main-block">
+    <div class="top">
+      <div class="top-corners">
+        <img src="{% static 'myapp/images/main/TopLeftCorner.png' %}" alt="" />
+        <img src="{% static 'myapp/images/main/TopRightCorner.png' %}" alt="" />
+      </div>
+    </div>
+
+    <div class="services-all">
+      <div class="service-todo">
+        <img src="{% static 'myapp/images/main/iconReg.png' %}" alt="reg" />
+        <h4>Зарегистрироватся</h4>
+        <p>
+          Конечно, Вы можете забронировать и купить билеты без входа.
+          Регестрации даст вам не только самие свежте новости, но и доступ
+          к купонам, что предоставят Вам скидку
+        </p>
+      </div>
+      <div class="service-todo">
+        <img src="{% static 'myapp/images/main/iconPig.png' %}" alt="bpigus" />
+        <h4>Оплатить</h4>
+        <p>
+          После того как Вы выберете тур, Вы можете выбрать один тиз способов
+          оплаты и совершить транзакцию.
+        </p>
+      </div>
+      <div class="service-todo">
+        <img src="{% static 'myapp/images/main/Vector.png' %}" alt="vector" />
+        <h4>Наслаждатся</h4>
+        <p>
+          ДА! Теперь Вы почувствуете на себе наш WOW-эфект и получите приятные
+          воспоминая на всю жизнь. Хорошего путешествия!
+        </p>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="bottom-corners">
+        <img
+          src="{% static 'myapp/images/main/BottomLeftCorner.png' %}"
+          alt=""
+        />
+        <img
+          src="{% static 'myapp/images/main/BottomRightCorner.png' %}"
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+</div>
