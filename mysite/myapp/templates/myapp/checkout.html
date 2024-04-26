@@ -13,37 +13,18 @@
       id="payment-form"
     >
       {% csrf_token %}
-      <div>
-        <div class="form-label"></div>
-        <div>{{ form.buyer.first_name }}</div>
-      </div>
 
-      <label for="last_name"> Фамилия </label>
-      <input id="last_name" />
-
-      <label for="phone_number"> № телефона </label>
-      <input id="phone_number" />
-
-      <label for="email"> E-mail </label>
-      <input id="email" />
       <div class="form-row">
-        <label for="card-number"> Credit or Debit Card </label>
-        <div id="card-number">
-          <!-- A Stripe Element will be inserted here. -->
-        </div>
-        <label for="card-exp"> Credit or Debit Card </label>
-        <div id="card-exp">
-          <!-- A Stripe Element will be inserted here. -->
-        </div>
-        <label for="card-cvc"> Credit or Debit Card </label>
-        <div id="card-cvc">
-          <!-- A Stripe Element will be inserted here. -->
-        </div>
+        <label for="card-number"> Номер карты </label>
+        <div id="card-number"></div>
+        <label for="card-exp"> Дата действия </label>
+        <div id="card-exp"></div>
+        <label for="card-cvc"> CVV/CVC </label>
+        <div id="card-cvc"></div>
 
-        <!-- Used to display form errors. -->
         <div id="card-errors" role="alert"></div>
       </div>
-      <div>{{amount}}</div>
+      <div>€ {{amount}}</div>
       <input class="input-button" type="submit" value="Оформить заказ" />
     </form>
 

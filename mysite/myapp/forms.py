@@ -1,15 +1,6 @@
 from datetime import datetime
 from django import forms
 from myapp.models import Order, Tour, Review, Buscket
-# from datetimewidget.widgets import DateTimeWidget
-
-# class yourForm(forms.ModelForm):
-#     class Meta:
-#         model = yourModel
-#         widgets = {
-#             #Use localization and bootstrap 3
-#             'datetime': DateTimeWidget(attrs={'id':"yourdatetimeid"}, usel10n = True, bootstrap_version=3)
-#         }
 
 
 class TourCreateForm(forms.ModelForm):
@@ -20,15 +11,8 @@ class TourCreateForm(forms.ModelForm):
                   'beginning', 'image', 'adult_price', 'tour_type', 'place_quantity']
         
 
-# class DateInput(forms.DateInput):
-#     input_type = 'date'
-
-
 class BuscketCreateForm(forms.ModelForm):
         
-
-
-    # date= forms.DateField(widget=DateInput(attrs={'class': 'input'}))
 
     
 
@@ -69,9 +53,9 @@ class OrderCreateForm(forms.ModelForm):
         first_name = kwargs.pop('first_name', None)
         last_name = kwargs.pop('last_name', None)
 
-        super().__init__(*args, **kwargs)  # Инициализация родительского класса
+        super().__init__(*args, **kwargs)  
     
-        if first_name:  # Проверка переданного аргумента
+        if first_name:  
             self.fields['first_name'] = forms.CharField(
                 label='Имя',
                 widget=forms.TextInput(attrs={'class': 'input'}),
@@ -85,7 +69,7 @@ class OrderCreateForm(forms.ModelForm):
 
     class Meta:
             model = Order
-        # Укажите поля, которые действительно принадлежат Order
+     
             fields = ['buyer', 'phone_number', 'email', 'tour', 'amount']
 
 

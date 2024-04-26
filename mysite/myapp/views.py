@@ -107,10 +107,6 @@ class BuscketCreateView(GetTourTypeMixin, CreateView):
         form.instance.buyer = self.request.user
         return super().form_valid(form)
     
-    # def form_invalid(self, form):
-    #     response = super().form_invalid(form)
-    #     return response
-
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         tour_instance = Tour.objects.get(pk=self.kwargs['tour_pk'])
@@ -150,12 +146,6 @@ class BuscketListView(ListView):
         queryset = Buscket.objects.filter(buyer=user)
         return queryset
     
-    # def get_context_data(self, **kwargs): 
-    #     context = super(BuscketListView, self).get_context_data(**kwargs)
-    #     context["stripe_publishable_key"] = settings.STRIPE_PUBLISHABLE_KEY
-    #     return context
-    
-
 
 class BuscketDeleteView(View):
 
@@ -211,7 +201,6 @@ def create_charge(request):
 
     except stripe.error.StripeError as e:
 
-        # Handle error
         return render(request, 'failed.html', {'message': str(e)})
 
     return render(request, 'success.html', {'total_summ': total_summ})
@@ -227,56 +216,3 @@ class OrderListView(ListView):
         queryset = Order.objects.filter(buyer=user)
         return queryset
     
-
-
-
-# class OrderCreateView(CreateView):
-#     model = Order
-#     template_name = 'buscket.html'
-#     form_class = OrderCreateForm
-#     http_method_names = ['get', 'post']
-#     success_url = reverse_lazy('myapp:profile') 
-    
-
-
-#     def get_form_kwargs(self):
-#         kwargs = super().get_form_kwargs()
-#         buscket_instance = Buscket.objects.get(pk=self.kwargs['buscket_pk'])
-#         kwargs['first_name'] = buscket_instance.buyer.first_name
-#         kwargs['last_name'] = buscket_instance.buyer.last_name
-        
-#         return kwargs
-    
-#     def form_valid(self, form):
-#         if not self.request.user.is_authenticated:
-#             return redirect(reverse('users:login'))
-
-#         buscket_instance = Buscket.objects.get(pk=self.kwargs['buscket_pk']) 
-#         form.instance.buscket = buscket_instance
-#         form.instance.buyer = self.request.user
-#         return super().form_valid(form)
-    
-
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         buscket = Buscket.objects.get(pk=self.kwargs['buscket_pk'])
-
-#         context['buscket_pk'] = buscket.pk  # Передача pk в контекст
-
-#         return context
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     buscket = Buscket.objects.get(pk=self.kwargs['buscket_pk'])
-    
-    #     context.update({
-    #         'first_name': buscket.buyer.first_name,     
-    #         'last_name': buscket.buyer.last_name,
-    #         'phone_number': buscket.buyer.phone_number,
-    #         'buscket_pk': buscket.pk,
-    #         'form': self.get_form(),
-    #     })
-    #     return context
-    
-
