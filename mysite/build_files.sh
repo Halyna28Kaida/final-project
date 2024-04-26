@@ -1,4 +1,2 @@
-pip install -r requirements
-
-python manage.py migrate
-python manage.py collectstatic
+pip install -r requirements.txt
+python3.11 manage.py collectstatic
