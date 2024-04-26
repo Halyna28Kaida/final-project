@@ -7,6 +7,11 @@ li {
   background-color: #cccbcb;
 }
 
+.login-nav-bar .navbar a,
+.login-register-button a {
+  color: black;
+}
+
 .register {
   padding-top: 100px;
 }
@@ -38,6 +43,7 @@ li {
   width: 420px;
   padding: 100px 10px;
   background-color: #cccbcb;
+  color: black;
 }
 
 .login-form button {
@@ -51,7 +57,6 @@ li {
 
 .form {
   clear: both;
-  /* border: solid 2px gray; */
   height: 40px;
   font-size: 20px;
   display: flex;
@@ -61,6 +66,4 @@ li {
 
 .form-input {
   font-size: 20px;
-  /* border: solid 2px rgb(236, 178, 70); */
-  /* background-color: #faf8f8; */
 }

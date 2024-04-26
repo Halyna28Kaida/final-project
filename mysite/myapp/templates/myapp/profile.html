@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<div>{% include "includes/includes_navbar.html" %}{% include "nav.html" %}</div>
-{% if buscket %}
+<div class="nav-menu-profile">
+  {% include "includes/includes_navbar.html" %}{% include "nav.html" %}
+</div>
+{% if order %}
 <table>
   <tr>
     <th>Typ</th>
@@ -11,7 +13,7 @@
     <th>Сумма</th>
   </tr>
 
-  {% for obj in buscket %}
+  {% for obj in order %}
   <tr class="buscket-list">
     <td>{{obj.tour.name}}</td>
     <td>{{obj.date|date:'Y-m-d' }}</td>
@@ -20,14 +22,6 @@
     <td>{{obj.tour.adult_price}}</td>
 
     <td>{{obj.get_summ}}</td>
-    <td>
-      <a href="{% url 'myapp:buscket-delete' pk=obj.pk %}"
-        ><img
-          class="buscket-delete"
-          src="{% static 'myapp/images/main/delette.png' %}"
-          alt="delete"
-      /></a>
-    </td>
   </tr>
 
   {% endfor %}
@@ -38,19 +32,15 @@
     <td></td>
     <td></td>
     <td>Итого</td>
-    <td>{{buscket.total_summ}}</td>
+    <td>{{order.total_summ}}</td>
     <td></td>
   </tr>
 </table>
 <br />
 
 <br />
-
-<a href="{% url 'myapp:checkout' %}">
-  <button class="checkout-button">continue</button>
-</a>
 {% else %}
-<h3>Корзина пустая</h3>
+<h3>У Вас нету заказов</h3>
 {% endif %}
 <footer>{% include "footer.html" %}</footer>
 {% endblock %}

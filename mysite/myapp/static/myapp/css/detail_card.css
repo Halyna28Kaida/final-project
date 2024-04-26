@@ -4,9 +4,11 @@
   background-repeat: no-repeat;
   height: 300px;
 }
-.detail-nav-bar .nav_menu {
-  color: black !important;
+
+.detail-nav-bar .nav_menu a {
+  color: black;
 }
+
 .detail-container {
   width: 70%;
   padding-top: 240px;

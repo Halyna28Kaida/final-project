@@ -2,18 +2,29 @@
 <div>
   {% include "includes/includes_navbar.html" %} {% include "nav.html" %}
 </div>
-<div
-  class="buscket-form"
-  action="{% url 'myapp:buscket_create' tour_pk=tour_pk %}"
->
+
+<div class="buscket-form">
   <h2>{{ tour_name }}</h2>
   <div class="buscket-form-left">
-    <form method="post">
+    <form
+      method="post"
+      action="{% url 'myapp:buscket_create' tour_pk=tour_pk %}"
+    >
       {% csrf_token %}
       <div class="form-datetime">
         <div>
           <div class="form-label">Дата:</div>
+
+          {% comment %}
           <div>{{ form.date }}</div>
+          {% endcomment %}
+
+          <input
+            type="date"
+            min="{{ min_day_value }}"
+            class="input"
+            name="date"
+          />
         </div>
         <div>
           <div class="form-label">{{ form.time.label_tag }}</div>

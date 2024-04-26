@@ -13,6 +13,19 @@
       id="payment-form"
     >
       {% csrf_token %}
+      <div>
+        <div class="form-label"></div>
+        <div>{{ form.buyer.first_name }}</div>
+      </div>
+
+      <label for="last_name"> Фамилия </label>
+      <input id="last_name" />
+
+      <label for="phone_number"> № телефона </label>
+      <input id="phone_number" />
+
+      <label for="email"> E-mail </label>
+      <input id="email" />
       <div class="form-row">
         <label for="card-number"> Credit or Debit Card </label>
         <div id="card-number">
@@ -30,8 +43,8 @@
         <!-- Used to display form errors. -->
         <div id="card-errors" role="alert"></div>
       </div>
-
-      <button type="submit">Submit Payment</button>
+      <div>{{amount}}</div>
+      <input class="input-button" type="submit" value="Оформить заказ" />
     </form>
 
     <script>

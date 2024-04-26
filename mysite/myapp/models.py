@@ -56,7 +56,7 @@ class Buscket(models.Model):
     buyer = models.ForeignKey(TuristUserNew, on_delete=models.CASCADE)
     prepayment = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    person_quantity = models.PositiveIntegerField( blank=True, null=True)
+    person_quantity = models.PositiveIntegerField(blank=True, null=True)
     tour = models.ForeignKey(Tour, blank=True, null=True, on_delete=models.CASCADE)
     
 
@@ -75,16 +75,27 @@ class Order(models.Model):
     buyer = models.ForeignKey(TuristUserNew, on_delete=models.SET_DEFAULT, blank=True, null=True, default=None, verbose_name='Пользователь')
     phone_number = models.CharField(max_length=20, null=True, verbose_name='Номер телефона')
     email = models.CharField(max_length=50, null=True, verbose_name='E-mail')
-    buscket = models.ForeignKey(Buscket, blank=True, null=True, on_delete=models.PROTECT)
+    tour = models.ForeignKey(Tour, blank=True, null=True, on_delete=models.PROTECT)
+    person_quantity = models.PositiveIntegerField( blank=True, null=True)
     amount = models.IntegerField(blank=True, null=True)
-    stripe_payment = models.CharField(max_length=200, blank=True, null=True)
-    is_paid = models.BooleanField(default=False, verbose_name='Оплачено')
+    date = models.DateField(blank=True, null=True)
+    time = models.TimeField(default=None, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         db_table: str = 'order'
         verbose_name: str = 'Заказ'
         verbose_name_plural: str = 'Заказы'
+
+    def get_summ(self):
+        if self.tour:
+            if self.tour.tour_type == 1:
+                return self.tour.adult_price
+            else:
+                return self.tour.adult_price * self.person_quantity
+        return 0  
+    
+    objects = BuscketQuarySet.as_manager()    
 
     def __str__(self):
         return f'Заказ № {self.pk} | Покупатель {self.buyer.first_name} {self.buyer.last_name}'

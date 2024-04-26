@@ -84,7 +84,8 @@ h3 {
   justify-content: space-between;
 }
 
-.nav-menu-main a {
+.nav-menu-main a,
+.nav-menu-login li a {
   padding: 2px 5px;
 }
 
@@ -95,8 +96,13 @@ h3 {
 
 .nav-menu-login {
   display: flex;
-  width: 270px;
+  width: 200px;
   justify-content: space-between;
+}
+
+.nav-buscket {
+  width: 100px;
+  text-align: right;
 }
 
 .header {
@@ -205,4 +211,59 @@ h3 {
   background-color: brown;
   border-radius: 50%;
   text-align: center;
+}
+
+.navbar .drop-menu {
+  position: absolute;
+  width: 300px;
+}
+
+.navbar .drop-menu ul li a {
+  color: white;
+  margin-left: 140px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  display: none;
+}
+
+.drop-menu ul li ul {
+  /* position: absolute; */
+  color: white;
+  margin-left: -200px;
+  padding-top: 20px;
+  display: none;
+}
+
+.drop-menu ul li ul li a {
+  color: white;
+}
+
+.drop-menu ul li ul li {
+  padding: 10px 0;
+}
+
+.drop-menu ul li:hover > ul {
+  display: initial;
+}
+
+@media screen and (max-width: 1050px) {
+  .nav-menu-main {
+    display: none;
+  }
+
+  .navbar .drop-menu ul li ul li a {
+    color: black;
+  }
+
+  .navbar .drop-menu ul li ul li {
+    background-color: brown;
+    opacity: 0.9;
+  }
+
+  .nav_menu {
+    justify-content: flex-end;
+  }
+  .navbar .drop-menu ul li a {
+    display: block;
+  }
 }

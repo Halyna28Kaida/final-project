@@ -1,7 +1,7 @@
 from django.urls import path
-from myapp.views import BuscketDeleteView,TourListView, TourDetailView, PrivateTourListView, GroupTourListView, BuscketCreateView 
+from myapp.views import BuscketDeleteView, OrderListView, create_charge,TourListView, TourDetailView, PrivateTourListView, GroupTourListView, BuscketCreateView 
 from myapp.views import GroupTourCzechListView, GroupTourEuropeListView,PrivateTourCzechListView, PrivateTourEuropeListView
-from myapp.views import ServicesView, AboutView, BuscketListView, ContactsView, create_charge, payment
+from myapp.views import ServicesView, AboutView, BuscketListView, ContactsView, payment
 
 app_name= 'myapp'
 
@@ -23,7 +23,7 @@ urlpatterns = [
     path('buscket-delete/<int:pk>/', BuscketDeleteView.as_view(), name='buscket-delete'),
     path('create-charge/', create_charge, name='create-charge'),
     path('checkout_session/', payment, name='checkout'),
-
+    path('profile/', OrderListView.as_view(), name='profile'),
 
 ]
 

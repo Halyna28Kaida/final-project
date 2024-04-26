@@ -1,5 +1,6 @@
+from datetime import datetime
 from django import forms
-from myapp.models import Tour, Review, Buscket
+from myapp.models import Order, Tour, Review, Buscket
 # from datetimewidget.widgets import DateTimeWidget
 
 # class yourForm(forms.ModelForm):
@@ -19,15 +20,15 @@ class TourCreateForm(forms.ModelForm):
                   'beginning', 'image', 'adult_price', 'tour_type', 'place_quantity']
         
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
+# class DateInput(forms.DateInput):
+#     input_type = 'date'
 
 
 class BuscketCreateForm(forms.ModelForm):
         
 
 
-    date= forms.DateField(widget=DateInput(attrs={'class': 'input'}))
+    # date= forms.DateField(widget=DateInput(attrs={'class': 'input'}))
 
     
 
@@ -36,9 +37,10 @@ class BuscketCreateForm(forms.ModelForm):
         beginning = kwargs.pop('beginning', None)
         place_quantity = kwargs.pop('place_quantity', None)
         
-        
 
         super().__init__(*args, **kwargs)
+
+        min_day_value = datetime.today().strftime("%Y-%m-%d")
 
 
         if place_quantity:
@@ -60,6 +62,31 @@ class BuscketCreateForm(forms.ModelForm):
     class Meta:
         model = Buscket
         fields = ['date', 'time', 'person_quantity']
+
+
+class OrderCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        first_name = kwargs.pop('first_name', None)
+        last_name = kwargs.pop('last_name', None)
+
+        super().__init__(*args, **kwargs)  # Инициализация родительского класса
+    
+        if first_name:  # Проверка переданного аргумента
+            self.fields['first_name'] = forms.CharField(
+                label='Имя',
+                widget=forms.TextInput(attrs={'class': 'input'}),
+            )
+    
+        if last_name:
+            self.fields['last_name'] = forms.CharField(
+                label='Фамилия',
+             widget=forms.TextInput(attrs={'class': 'input'}),
+            )
+
+    class Meta:
+            model = Order
+        # Укажите поля, которые действительно принадлежат Order
+            fields = ['buyer', 'phone_number', 'email', 'tour', 'amount']
 
 
 

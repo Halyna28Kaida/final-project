@@ -1,15 +1,42 @@
 {% load static %}
 
 <div class="navbar">
+  <div class="drop-menu">
+    <ul> 
+      <li><a href="#">Меню</a>
+        <ul>
+          <li>
+            <a href="{% url 'myapp:home' %}">Главная</a>
+          </li>
+          <li>
+            <a href="{% url 'myapp:tours' %}">Туры</a>
+          </li>
+          <li>
+            <a href="{% url 'myapp:services' %}">Услуги</a>
+          </li>
+          <li>
+            <a href="{% url 'myapp:about' %}">О нас</a>
+          </li>
+          <li>
+            <a href="{% url 'myapp:contacts' %}">Контакты</a>
+          </li>
+        </ul>
+      </li>
+        
+    </ul>       
+  </div>
   <div class="nav-inner">
     <div>
       <a href="{% url 'myapp:home' %}"
         ><img class="logo" src="{% static 'myapp/logo/logo1.png' %}" alt="logo"
       /></a>
     </div>
+    
+
     <div class="nav_menu">
       <div class="nav-menu-main">
         <ul>
+          
           <li>
             <a
               href="{% url 'myapp:home' %}"
@@ -45,31 +72,34 @@
               >Контакты</a
             >
           </li>
-          <li>
-            <a
-              href="{% if request.user.is_authenticated %} {% url 'myapp:buscket' %} {% else %} {% url 'users:login' %} {% endif %}"
-              class="{% if request.path == '/myapp/buscket/' %}active{% endif %}"
-            >
-              Корзина   
-            </a>
-            {% if user.is_authenticated %}
-            <span class="buscket-quantity">{{buscket.total_quantity}}</span>
-            {% endif %}
-          </li>
+
     </div>
+   
+      <div class="nav-buscket">
+        <a
+          href="{% if request.user.is_authenticated %} {% url 'myapp:buscket' %} {% else %} {% url 'users:login' %} {% endif %}"
+          class="{% if request.path == '/myapp/buscket/' %}active{% endif %}"
+        >
+          Корзина
+        </a>
+        {% if user.is_authenticated %}
+        <span class="buscket-quantity">{{buscket.total_quantity}}</span>
+        {% endif %}
+      </div>
     </ul>
-      <ul id="open_modal_window" class="nav-menu-login">
+      <ul class="nav-menu-login">
         {% if user.is_authenticated %}
         <li>
           <form method="post" action="{% url 'users:logout' %}">
             {% csrf_token %}
             <button type="submit">Выйти</button>
-            {{user}}
+            <a href="{% if request.user.is_authenticated %} {% url 'myapp:profile' %} {% else %} {% url 'users:login' %} {% endif %}"
+            class="{% if request.path == '/myapp/profile/' %}active{% endif %}">{{user}}</a>
           </form>
         </li>
         {% else %}
         <li><a href="{% url 'users:login' %}"> Войти </a></li>
-        <li><a href="{% url 'users:register' %}"> Зарегистрироватся </a></li>
+        <li><a href="{% url 'users:register' %}"> Регистрация </a></li>
         {% endif %}
       </ul>
     </div>

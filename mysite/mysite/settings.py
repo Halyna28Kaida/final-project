@@ -118,6 +118,8 @@ LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Kyiv'
 
+DATE_INPUT_FORMATS = ['d-m-Y']
+
 USE_I18N = True
 
 USE_TZ = True

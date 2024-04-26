@@ -1,5 +1,6 @@
 
-from django.http import HttpRequest, HttpResponseNotFound, JsonResponse
+from datetime import datetime
+from django.http import HttpRequest, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
@@ -7,10 +8,12 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, CreateView
 from myapp.models import Order, Tour, Buscket
 from myapp.utils import GetTourTypeMixin
-from myapp.forms import BuscketCreateForm
+from myapp.forms import BuscketCreateForm, OrderCreateForm
 from django.conf import settings
 import stripe
 from django.db.models import Sum
+
+from users.models import TuristUserNew
 
 
 
@@ -88,12 +91,25 @@ class BuscketCreateView(GetTourTypeMixin, CreateView):
     http_method_names = ['get', 'post']
     success_url = reverse_lazy('myapp:buscket')
     context_object_name = "buscket"
+    
+
+
+
+
+    def get_min_day_value(self):
+        return datetime.today().strftime("%Y-%m-%d")
 
     def form_valid(self, form):
         tour_instance = Tour.objects.get(pk=self.kwargs['tour_pk'])
+        if not self.request.user.is_authenticated:
+            return redirect(reverse('users:login'))
         form.instance.tour = tour_instance
         form.instance.buyer = self.request.user
         return super().form_valid(form)
+    
+    # def form_invalid(self, form):
+    #     response = super().form_invalid(form)
+    #     return response
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -102,18 +118,22 @@ class BuscketCreateView(GetTourTypeMixin, CreateView):
         beginning = tour_instance.beginning
         kwargs['place_quantity'] = place_quantity
         kwargs['beginning'] = beginning
+        
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context={}
         context = super().get_context_data(**kwargs)
-        tour = Tour.objects.get(pk=self.kwargs['tour_pk'])      
-        available_places = tour.available_places()
-        context['available_places'] = available_places 
-        context['form'] = self.get_form() 
-        context['tour_name'] = tour.name
-        context['tour_type'] = tour.tour_type
-        context['tour_pk'] = tour.pk
+        tour = Tour.objects.get(pk=self.kwargs['tour_pk'])
+    
+        context.update({
+            'available_places': tour.available_places(),
+            'form': self.get_form(),
+            'tour_name': tour.name,
+            'tour_type': tour.tour_type,
+            'tour_pk': tour.pk,
+
+            'min_day_value': self.get_min_day_value() 
+        })
         return context
     
 
@@ -123,6 +143,7 @@ class BuscketListView(ListView):
     model = Buscket
     template_name = 'buscket.html'
     context_object_name = "buscket"
+    extra_context = {'create_form': OrderCreateForm}
 
     def get_queryset(self):
         user = self.request.user
@@ -150,7 +171,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 def payment(request):
-    context = {'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY}
+    user = request.user
+    context = {'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY, 
+               'amount': Buscket.objects.filter(buyer=user).total_summ()}
     return render(request, 'checkout.html', context)
 
 
@@ -167,11 +190,12 @@ def create_charge(request):
             description='Example charge',
             source=token,
         )
-
     
-        tours = Tour.objects.filter(buscket__buyer=user) 
+        tours = Tour.objects.filter(buscket__buyer=user)
+        
         for tour in tours:
-            total_persons = Buscket.objects.filter(tour=tour, date=request.POST['date']).aggregate(
+            buscket = Buscket.objects.get(buyer=user, tour=tour)
+            total_persons = Buscket.objects.filter(tour=tour, buyer=user).aggregate(
                 total=Sum('person_quantity')
             )['total']
 
@@ -179,11 +203,80 @@ def create_charge(request):
                 tour.place_quantity -= total_persons
                 tour.save()
 
-        Buscket.objects.filter(buyer=user).delete()
+            order = Order.objects.create(buyer=user, email=user.email, amount=buscket.get_summ(), tour=tour,
+                                         date=buscket.date, time=buscket.time, 
+                                         person_quantity=buscket.person_quantity)
+
+            buscket.delete()
+
     except stripe.error.StripeError as e:
 
         # Handle error
         return render(request, 'failed.html', {'message': str(e)})
 
-    return render(request, 'success.html')
+    return render(request, 'success.html', {'total_summ': total_summ})
+
+
+class OrderListView(ListView):
+    model = Order
+    template_name = 'profile.html'
+    context_object_name = "order"
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Order.objects.filter(buyer=user)
+        return queryset
+    
+
+
+
+# class OrderCreateView(CreateView):
+#     model = Order
+#     template_name = 'buscket.html'
+#     form_class = OrderCreateForm
+#     http_method_names = ['get', 'post']
+#     success_url = reverse_lazy('myapp:profile') 
+    
+
+
+#     def get_form_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         buscket_instance = Buscket.objects.get(pk=self.kwargs['buscket_pk'])
+#         kwargs['first_name'] = buscket_instance.buyer.first_name
+#         kwargs['last_name'] = buscket_instance.buyer.last_name
+        
+#         return kwargs
+    
+#     def form_valid(self, form):
+#         if not self.request.user.is_authenticated:
+#             return redirect(reverse('users:login'))
+
+#         buscket_instance = Buscket.objects.get(pk=self.kwargs['buscket_pk']) 
+#         form.instance.buscket = buscket_instance
+#         form.instance.buyer = self.request.user
+#         return super().form_valid(form)
+    
+
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         buscket = Buscket.objects.get(pk=self.kwargs['buscket_pk'])
+
+#         context['buscket_pk'] = buscket.pk  # Передача pk в контекст
+
+#         return context
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     buscket = Buscket.objects.get(pk=self.kwargs['buscket_pk'])
+    
+    #     context.update({
+    #         'first_name': buscket.buyer.first_name,     
+    #         'last_name': buscket.buyer.last_name,
+    #         'phone_number': buscket.buyer.phone_number,
+    #         'buscket_pk': buscket.pk,
+    #         'form': self.get_form(),
+    #     })
+    #     return context
+    
 

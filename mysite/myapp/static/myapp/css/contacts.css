@@ -28,3 +28,7 @@
 .contacts-right span {
   color: black;
 }
+
+body .contacts-nav-bar .navbar .nav_inner .nav_menu .nav-menu-main ul li a {
+  color: white;
+}

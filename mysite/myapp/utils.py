@@ -19,5 +19,6 @@ class GetBuscketMixin(AccessMixin):
         queryset = Buscket.objects.filter(buyer=user)
         return queryset
    
-    
+
+      
     
