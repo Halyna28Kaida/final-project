@@ -10,23 +10,34 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
+
+try:
+    from .local_settings import *
+except ImportError:
+    DEBUG = False
+    ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
+
+
+SECRET_KEY = 'django-insecure-%0*@d@$mbljulyv8ob(qxen6atf7l6s4j1t2_v75a1267i&b7&'
+
+DATABASES = {
+'default': {
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': os.environ.get("DB_NAME"),
+    'USER': os.environ.get("DB_USER"),
+    'PASSWORD': os.environ.get("DB_PASSWORD"),
+    'HOST': os.environ.get("DB_HOST"),
+    'PORT': os.environ.get("DB_PORT"),
+    }
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%0*@d@$mbljulyv8ob(qxen6atf7l6s4j1t2_v75a1267i&b7&'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -74,21 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tourdbnew',
-        'USER': 'tourusernew',
-        'PASSWORD': 'tourpassnew',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
 
 
 # Password validation
@@ -139,6 +135,9 @@ AUTH_USER_MODEL = 'users.TuristUserNew'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 LOGIN_REDIRECT_URL = 'myapp:home'
 LOGOUT_REDIRECT_URL = 'myapp:home'
