@@ -6,7 +6,7 @@ from myapp.views import ServicesView, AboutView, BuscketListView, ContactsView, 
 app_name= 'myapp'
 
 urlpatterns = [
-    path('home/', TourListView.as_view(), name='home'),
+    path('/', TourListView.as_view(), name='home'),
     path('tours/', TourListView.as_view(), name='tours'),
     path('services/', ServicesView.as_view(), name='services'),
     path('about/', AboutView.as_view(), name='about'),
