@@ -28,11 +28,12 @@ SECRET_KEY = 'django-insecure-%0*@d@$mbljulyv8ob(qxen6atf7l6s4j1t2_v75a1267i&b7&
 DATABASES = {
 'default': {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': os.environ.get("DB_NAME"),
-    'USER': os.environ.get("DB_USER"),
-    'PASSWORD': os.environ.get("DB_PASSWORD"),
-    'HOST': os.environ.get("DB_HOST"),
-    'PORT': os.environ.get("DB_PORT"),
+    'URL': os.environ.get("POSTGRES_URL"),
+    'NAME': os.environ.get("POSTGRES_DATABASE"),
+    'USER': os.environ.get("POSTGRES_USER"),
+    'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
+    'HOST': os.environ.get("POSTGRES_HOST"),
+    'PORT': os.environ.get("POSTGRES_PORT"),
     }
 }
 
