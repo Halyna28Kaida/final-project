@@ -9,12 +9,6 @@ class Register(CreateView):
     template_name = "users/register.html"
     success_url = '/myapp/home/'
 
-    # def form_valid(self, form):
-    #     user = form.save(commit=False)
-    #     user.purse = 2000
-    #     user.save()
-    #     return super().form_valid(form)
-
 
 class Login(LoginView):
     form_class = LoginUserForm

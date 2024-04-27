@@ -20,7 +20,7 @@ from users.models import TuristUserNew
 class TourListView(GetTourTypeMixin, ListView):
     model = Tour
     template_name = 'home.html'
-    paginate_by = 3
+    # paginate_by = 3
     context_object_name = "buscket"
  
     
