@@ -1,10 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
 from users.models import TuristUserNew
 
 
-
 class NewUserForm(UserCreationForm):
+    class Meta:
+        model = TuristUserNew  
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
     email = forms.CharField(label="E-mail", widget=forms.TextInput(attrs={'class': 'form-input'}))
     username = forms.CharField(label="Логин", widget=forms.TextInput(attrs={'class': 'form-input'}))
     first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-input'}))
